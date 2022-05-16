@@ -28,9 +28,11 @@
     Ref: https://minikube.sigs.k8s.io/docs/start/
     1. Make sure the system meets the prerequisites (such as disk space, memory)
 
-    2. # Execute following commands
+    2. #Execute following commands
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    
     sudo install minikube-linux-amd64 /usr/local/bin/minikube
+    
     minikube start
 
 
@@ -55,17 +57,22 @@ sudo yum install -y kubectl
     Ref: https://helm.sh/docs/intro/install/#from-script
 
     $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    
     $ chmod 700 get_helm.sh
+    
     $ ./get_helm.sh
 
 8. Install Nginx Ingress controller using Helm chart
 
    a. Download source code from https://github.com/kubernetes/ingress-nginx/releases/tag/helm-chart-4.1.1
-   b. # Expand the source code
+   
+   b. #Expand the source code
       tar -xvzf ingress-nginx-helm-chart-4.1.1.tar.gz
-   c. # Change directory to location of charts
+      
+   c. #Change directory to location of charts
       cd ingress-nginx-helm-chart-4.1.1/charts/ingress-nginx
-   d. # Install nginx ingress controller package. Name the release as 'nginx'
+      
+   d. #Install nginx ingress controller package. Name the release as 'nginx'
       helm install nginx .
 
 9. Create 2 sample deployments and expose the deployments
@@ -76,42 +83,7 @@ k expose deployment web --type=NodePort --port=8080
 k create deployment web2 --image=gcr.io/google-samples/hello-app:2.0
 k expose deployment web2 --port=8080 --type=NodePort
 
-10. Create Ingress:
-
-[osboxes@localhost ~]$ cat my-ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ingress-class: nginx
-  name: example-ingress
-  namespace: default
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: www.thrisha.192.168.49.2.nip.io
-    http:
-      paths:
-      - backend:
-          service:
-            name: web
-            port:
-              number: 8080
-        path: /v1
-        pathType: Prefix
-      - path: /v2
-        pathType: Prefix
-        backend:
-          service:
-            name: web2
-            port:
-              number: 8080
-
-
-[osboxes@localhost templates]$ k get ingress example-ingress
-NAME              CLASS   HOSTS                             ADDRESS        PORTS   AGE
-example-ingress   nginx   www.thrisha.192.168.49.2.nip.io   192.168.49.2   80      149m
+10. Create Ingress
 
 11. Access the hostname on browser and check logs (included as part of recording)
 
@@ -119,21 +91,21 @@ example-ingress   nginx   www.thrisha.192.168.49.2.nip.io   192.168.49.2   80   
 
     b. Setup and git repo
 
-    # create a directory
+    #create a directory
     mkdir EverlyHealth
 
-    # change directory to EverlyHealth
+    #change directory to EverlyHealth
     cd EverlyHealth
 
-    # Initialize git in the current directory
+    #Initialize git in the current directory
     git init
 
-    # Set git username and email
+    #Set git username and email
     git config --global user.name thrisha-k
     git config --global user.email thrisha.kasula@gmail.com
 
-    # log into GitHub and create a repo by name 'EverlyHealth' - this helps connect the our local repo with remote repo
-    # Go to terminal and do the following:
+    #log into GitHub and create a repo by name 'EverlyHealth' - this helps connect the our local repo with remote repo
+    #Go to terminal and do the following:
     git remote add origin https://github.com/thrisha-k/EverlyHealth.git
 
     Thrishas-MacBook-Pro:EverlyHealth tkasula$ git remote -v
